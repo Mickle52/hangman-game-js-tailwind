@@ -1,9 +1,27 @@
-import { WORDS, KEYBOARD_LETTERS } from "./consts";
+import { WORDS, RU_WORDS, KEYBOARD_LETTERS, RU_KEYBOARD_LETTERS, } from "./consts";
 
 const gameDiv = document.getElementById("game");
 const logoH1 = document.getElementById("logo");
 let triesLeft;
 let winCount;
+
+const checkLangModeAddText = (ruText, enText) => {
+  const langMode = localStorage.getItem('lang')
+  if (langMode === 'ru') {
+    return ruText
+  } else {
+    return enText
+  }
+}
+
+const changeImportLangConst = (ruConst, enConst) => {
+  const langMode = localStorage.getItem('lang')
+  if (langMode === 'ru') {
+    return ruConst
+  } else {
+    return enConst
+  }
+}
 
 const createPlaceholdersHTML = () => {
   const word = sessionStorage.getItem("word");
@@ -99,6 +117,7 @@ const stopGame = (status) => {
 };
 
 export const startGame = () => {
+  
   triesLeft = 10;
   winCount = 0;
 
@@ -128,7 +147,7 @@ export const startGame = () => {
     '<button id="quit" class="button-secondary px-2 py-1 mt-4">Quit</button>',
   );
   document.getElementById("quit").onclick = () => {
-    const isSure = confirm('Are you sure you want to quit and lose progress?')
+    const isSure = confirm("Are you sure you want to quit and lose progress?");
     if (isSure) {
       stopGame("quit");
     }
