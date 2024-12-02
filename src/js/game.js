@@ -1,27 +1,32 @@
-import { WORDS, RU_WORDS, KEYBOARD_LETTERS, RU_KEYBOARD_LETTERS, } from "./consts";
+import {
+  WORDS,
+  RU_WORDS,
+  KEYBOARD_LETTERS,
+  RU_KEYBOARD_LETTERS,
+} from "./consts";
 
 const gameDiv = document.getElementById("game");
 const logoH1 = document.getElementById("logo");
 let triesLeft;
 let winCount;
 
-const checkLangModeAddText = (ruText, enText) => {
-  const langMode = localStorage.getItem('lang')
-  if (langMode === 'ru') {
-    return ruText
+const setLanguageArray = (enArr, ruArr) => {
+  const langMode = localStorage.getItem("lang");
+  if (langMode === "ru") {
+    return ruArr;
   } else {
-    return enText
+    return enArr;
   }
-}
+};
 
-const changeImportLangConst = (ruConst, enConst) => {
-  const langMode = localStorage.getItem('lang')
-  if (langMode === 'ru') {
-    return ruConst
+const setLanguageText = (enText, ruText) => {
+  const langMode = localStorage.getItem("lang");
+  if (langMode === "ru") {
+    return ruText;
   } else {
-    return enConst
+    return enText;
   }
-}
+};
 
 const createPlaceholdersHTML = () => {
   const word = sessionStorage.getItem("word");
@@ -33,11 +38,16 @@ const createPlaceholdersHTML = () => {
 };
 
 const createKeyboard = () => {
+  let keyboardLangArray = setLanguageArray(
+    KEYBOARD_LETTERS,
+    RU_KEYBOARD_LETTERS,
+  );
+
   const keyboard = document.createElement("div");
   keyboard.classList.add("keyboard");
   keyboard.id = "keyboard";
 
-  const keyboardHTML = KEYBOARD_LETTERS.reduce((acc, cur) => {
+  const keyboardHTML = keyboardLangArray.reduce((acc, cur) => {
     return (
       acc +
       `<button class="button-primary keyboard-button" id="${cur}">${cur}</button>`
@@ -45,6 +55,10 @@ const createKeyboard = () => {
   }, "");
 
   keyboard.innerHTML = keyboardHTML;
+  if (localStorage.getItem("lang") === "ru") {
+    keyboard.classList.add("ru-keyboard");
+  }
+
   return keyboard;
 };
 
@@ -101,33 +115,33 @@ const stopGame = (status) => {
   if (status === "win") {
     document.getElementById("hangman-img").src = "images/hg-win.png";
     document.getElementById("game").innerHTML +=
-      `<h2 class="result-header win">You won!<h2>`;
+      `<h2 class="result-header win">${setLanguageText("You won!", "Вы выиграли!")}<h2>`;
   } else if (status === "lose") {
     document.getElementById("game").innerHTML +=
-      `<h2 class="result-header lose">You lost :(<h2>`;
+      `<h2 class="result-header lose">${setLanguageText("ou lost :(", "Вы проиграли :(")}<h2>`;
   } else if (status === "quit") {
     logoH1.classList.remove("logo-smaller");
     document.getElementById("hangman-img").remove();
   }
 
   document.getElementById("game").innerHTML +=
-    `<p>The word was: <span class="result-word">${word}<span></p>
-  <button id="play-again" class="button-primary px-5 py-2 mt-5">Play again</button>`;
+    `<p>${setLanguageText("The word was: ", "Было загадно слово: ")}<span class="result-word">${word}<span></p>
+  <button id="play-again" class="button-primary px-5 py-2 mt-5">${setLanguageText("Play again", "Играть заново")}</button>`;
   document.getElementById("play-again").onclick = startGame;
 };
 
 export const startGame = () => {
-  
+  let wordArray = setLanguageArray(WORDS, RU_WORDS);
   triesLeft = 10;
   winCount = 0;
 
-  const randomIndex = Math.floor(Math.random() * WORDS.length);
-  const wordToGuess = WORDS[randomIndex];
+  const randomIndex = Math.floor(Math.random() * wordArray.length);
+  const wordToGuess = wordArray[randomIndex];
   sessionStorage.setItem("word", wordToGuess);
 
   gameDiv.innerHTML = createPlaceholdersHTML();
   ``;
-  gameDiv.innerHTML += `<p id="tries" class="mt-2">TRIES LEFT: <span id="tries-left"
+  gameDiv.innerHTML += `<p id="tries" class="mt-2">${setLanguageText("TRIES LEFT: ", "ОСТАЛОСЬ ПОПЫТОК: ")}<span id="tries-left"
   class="font-medium text-red-600">10</span></p>`;
 
   const hangmanImg = createHangmanImg();
@@ -144,10 +158,15 @@ export const startGame = () => {
 
   gameDiv.insertAdjacentHTML(
     "beforeend",
-    '<button id="quit" class="button-secondary px-2 py-1 mt-4">Quit</button>',
+    `<button id="quit" class="button-secondary px-2 py-1 mt-4">${setLanguageText("Quit", "Сдаться")}</button>`,
   );
   document.getElementById("quit").onclick = () => {
-    const isSure = confirm("Are you sure you want to quit and lose progress?");
+    const isSure = confirm(
+      setLanguageText(
+        "Are you sure you want to quit and lose progress?",
+        "Вы уверены, что хотите сдаться и потерять прогресс?",
+      ),
+    );
     if (isSure) {
       stopGame("quit");
     }

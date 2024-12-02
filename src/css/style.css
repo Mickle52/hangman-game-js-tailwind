@@ -61,6 +61,10 @@
     @apply max-w-2xl mt-5 flex justify-center flex-wrap
   }
 
+  .ru-keyboard > .keyboard-button {
+    @apply w-7 h-7 sm:w-11 sm:h-11 m-0.5 sm:m-1.5
+  }
+
   .keyboard-button {
     @apply w-10 h-10 sm:w-14 sm:h-14 m-1 sm:m-2
   }

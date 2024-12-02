@@ -26,6 +26,7 @@ export const langModeHandle = () => {
     htmlElement.classList.add('ru');
     langModeSwitcher.checked = true;
     document.getElementById('logo').innerText = '[ ВИСЕЛИЦА ]'
+    document.getElementById('startGame').innerText = 'Начать игру'
   } else {
     // document.getElementById('logo').innerText = 'testEN'
   }
