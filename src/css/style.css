@@ -88,5 +88,13 @@
   .result-word {
     @apply font-medium uppercase
   }
+
+  .enabled-toggle {
+    @apply opacity-50
+  }
+
+  .reload-btn {
+    @apply absolute top-5 left-5 text-sm p-2
+  }
 }
 

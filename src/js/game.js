@@ -104,6 +104,25 @@ const checkLetter = (letter) => {
   }
 };
 
+const disableLangToggle = () => {
+  const langToggle = document.getElementById('toggleLangMode')
+  const langLabel = document.getElementById('langLabel')
+  langToggle.disabled = true
+  langLabel.classList.add('enabled-toggle')
+  
+  langToggle.addEventListener('click', () => {
+    console.log(123)
+  })
+}
+
+const createMenuButton = () => {
+  const mainView = document.getElementById('app')
+  const menuButton = document.createElement('button')
+  menuButton.innerHTML = `<button class="button-primary reload-btn" onclick="location.reload();">${setLanguageText("Main menu", "Меню")}
+    </button>`
+  mainView.appendChild(menuButton)
+}
+
 const stopGame = (status) => {
   document.getElementById("placeholders").remove();
   document.getElementById("tries").remove();
@@ -134,7 +153,10 @@ export const startGame = () => {
   let wordArray = setLanguageArray(WORDS, RU_WORDS);
   triesLeft = 10;
   winCount = 0;
-
+  
+  disableLangToggle()
+  createMenuButton()
+  
   const randomIndex = Math.floor(Math.random() * wordArray.length);
   const wordToGuess = wordArray[randomIndex];
   sessionStorage.setItem("word", wordToGuess);
