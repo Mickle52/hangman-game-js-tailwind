@@ -1,8 +1,8 @@
 import {
-  WORDS,
   RU_WORDS,
   KEYBOARD_LETTERS,
   RU_KEYBOARD_LETTERS,
+  getEnWord
 } from "./consts";
 
 const gameDiv = document.getElementById("game");
@@ -149,8 +149,14 @@ const stopGame = (status) => {
   document.getElementById("play-again").onclick = startGame;
 };
 
-export const startGame = () => {
-  let wordArray = setLanguageArray(WORDS, RU_WORDS);
+export const startGame = async () => {
+  const langMode = localStorage.getItem("lang");
+  let wordArray = []
+  if (langMode === "ru") {
+    wordArray = [...RU_WORDS]
+  } else {
+     wordArray = await getEnWord()
+  }
   triesLeft = 10;
   winCount = 0;
   
