@@ -1,6 +1,6 @@
 export async function getEnWord() {
 	let dataWord = []
-	await fetch('https://random-word-api.herokuapp.com/word?numer=1')
+	await fetch('https://random-word-api.herokuapp.com/word?number=1')
 		.then(res => (res.json()))
 		.then(json => dataWord[0] = json[0])
 		.catch((err) =>
